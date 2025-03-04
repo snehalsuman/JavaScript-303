@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 50%;
+            margin: 50px auto;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        h2 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        td {
+            padding: 10px;
+        }
+        input {
+            width: 90%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .delete-btn {
+            background-color: #dc3545;
+        }
+        .delete-btn:hover {
+            background-color: #c82333;
+        }
+        #display {
+            margin-top: 20px;
+            text-align: left;
+            padding: 10px;
+            border-radius: 5px;
+            background: #f9f9f9;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+    <script>
+        const book1 = { title: "Geetanjali", author: "Rabindranath Tagore" };
+        const book2 = { title: "War and Peace", author: "Leo Tolstoy" };
+
+        const Lib = {
+            name: "My Library",
+            books: [book1, book2],
+            addBook: function (book) {
+                this.books.push(book);
+            },
+            removeBook: function (index) {
+                this.books.splice(index, 1);
+            },
+            show: function () {
+                let displayDiv = document.getElementById("display");
+                displayDiv.innerHTML = "";
+                this.books.forEach((book, index) => {
+                    displayDiv.innerHTML += `
+                        <p>
+                            <strong>${index + 1}. ${book.title}</strong> by ${book.author}
+                            <button class="delete-btn" onclick="d(${index})">Delete</button>
+                        </p>`;
+                });
+                if (this.books.length === 0) {
+                    displayDiv.innerHTML = "<p>No books in the library.</p>";
+                }
+            }
+        };
+
+        function showDetails() {
+            Lib.show();
+        }
+
+        function d(ind) {
+            Lib.removeBook(ind);
+            Lib.show();
+        }
+
+        function add() {
+            let t = document.getElementById("title").value.trim();
+            let a = document.getElementById("author").value.trim();
+
+            if (t.length === 0 || a.length === 0) {
+                alert("Please enter complete data");
+                return;
+            }
+
+            const book = { title: t, author: a };
+            Lib.addBook(book);
+            document.getElementById("title").value = "";
+            document.getElementById("author").value = "";
+            alert("Book added successfully");
+            Lib.show();
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h2>Library Management System</h2>
+        <table border="0">
+            <tr>
+                <td>Title of the Book:</td>
+                <td><input type="text" id="title" placeholder="Enter book title"></td>
+            </tr>
+            <tr>
+                <td>Author of the Book:</td>
+                <td><input type="text" id="author" placeholder="Enter author name"></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <button onclick="add()">Add to Library</button>
+                    <button onclick="showDetails()">Show Details</button>
+                </td>
+            </tr>
+        </table>
+        <div id="display">The details of the books will be shown here.</div>
+    </div>
+</body>
+</html>
